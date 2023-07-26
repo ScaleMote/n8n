@@ -17,11 +17,6 @@
 		"preserveConstEnums": true,
 		"esModuleInterop": true,
 		"resolveJsonModule": true,
-		"incremental": true,
-		"declaration": true,
-		"sourceMap": true,
-		"skipLibCheck": true,
-		// TODO: remove all options below this line
 		"noUnusedLocals": true,
 		"useUnknownInCatchVariables": false
 	},
