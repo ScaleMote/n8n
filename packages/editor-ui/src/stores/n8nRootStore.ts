@@ -24,6 +24,7 @@ export const useRootStore = defineStore(STORES.ROOT, {
 		sessionId: Math.random().toString(36).substring(2, 15),
 		urlBaseWebhook: 'http://localhost:5678/',
 		urlBaseEditor: 'http://localhost:5678',
+		urlFlowApi: 'http://localhost:3307',
 		isNpmAvailable: false,
 		instanceId: '',
 	}),
@@ -46,6 +47,12 @@ export const useRootStore = defineStore(STORES.ROOT, {
 				endpoint = VUE_APP_ENDPOINT_REST;
 			}
 			return `${this.baseUrl}${endpoint}`;
+		},
+		getAuthApiContext(): IRestApiContext {
+			return {
+				baseUrl: `${this.urlFlowApi}/auth`,
+				sessionId: this.sessionId,
+			};
 		},
 
 		getRestApiContext(): IRestApiContext {
