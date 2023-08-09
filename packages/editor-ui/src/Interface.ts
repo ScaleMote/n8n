@@ -587,19 +587,54 @@ export interface IUserResponse {
 	personalizationAnswers?: IPersonalizationSurveyVersions | null;
 	isPending: boolean;
 	signInType?: SignInType;
+	settings?: object;
+}
+export interface IAuthResponse {
+	user: IAuthUserResponse;
+	accessToken: string;
+	refreshToken: string;
+}
+
+export interface IAuthUserResponse {
+	sub: string;
+	emailVerified: true;
+	iss?: string;
+	phoneNumberVerified?: boolean;
+	originJti?: string;
+	aud?: string;
+	eventId?: string;
+	tokenUse?: string;
+	authTime: number;
+	name: string;
+	phoneNumber?: string;
+	exp: number;
+	iat: number;
+	familyName: string;
+	jti?: string;
+	email: string;
+}
+
+export interface CurrentAuthUserResponse extends IAuthResponse {
+	featureFlags?: FeatureFlags;
 }
 
 export interface CurrentUserResponse extends IUserResponse {
 	featureFlags?: FeatureFlags;
 }
 
-export interface IUser extends IUserResponse {
+export interface IUser extends IAuthUserResponse {
 	isDefaultUser: boolean;
 	isPendingUser: boolean;
 	isOwner: boolean;
 	inviteAcceptUrl?: string;
 	fullName?: string;
-	createdAt?: string;
+}
+
+export interface IAuthUser extends IAuthResponse {
+	isDefaultUser: boolean;
+	isPendingUser: boolean;
+	isOwner: boolean;
+	fullName?: string;
 }
 
 export interface IVersionNotificationSettings {
@@ -987,6 +1022,7 @@ export interface RootState {
 	sessionId: string;
 	urlBaseWebhook: string;
 	urlBaseEditor: string;
+	urlFlowApi: string;
 	instanceId: string;
 	isNpmAvailable: boolean;
 }
