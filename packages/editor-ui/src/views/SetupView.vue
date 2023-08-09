@@ -27,11 +27,11 @@ export default mixins(showMessage, restApi).extend({
 	components: {
 		AuthView,
 	},
-	async mounted() {
-		const { credentials, workflows } = await this.usersStore.preOwnerSetup();
-		this.credentialsCount = credentials;
-		this.workflowsCount = workflows;
-	},
+	// async mounted() {
+	// 	const { credentials, workflows } = await this.usersStore.preOwnerSetup();
+	// 	this.credentialsCount = credentials;
+	// 	this.workflowsCount = workflows;
+	// },
 	data() {
 		const FORM_CONFIG: IFormBoxConfig = {
 			title: this.$locale.baseText('auth.setup.setupOwner'),
@@ -181,7 +181,7 @@ export default mixins(showMessage, restApi).extend({
 			}
 		},
 		onSkip() {
-			this.usersStore.skipOwnerSetup();
+			// this.usersStore.skipOwnerSetup();
 			this.$router.push({
 				name: VIEWS.HOMEPAGE,
 			});

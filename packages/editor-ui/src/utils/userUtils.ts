@@ -99,7 +99,7 @@ export const PERMISSIONS: IUserPermissions = {
 	TAGS: {
 		CAN_DELETE_TAGS: {
 			allow: {
-				role: [ROLE.Owner, ROLE.Default],
+				role: [ROLE.Owner],
 			},
 		},
 	},
@@ -123,7 +123,7 @@ export const PERMISSIONS: IUserPermissions = {
 	USAGE: {
 		CAN_ACTIVATE_LICENSE: {
 			allow: {
-				role: [ROLE.Owner, ROLE.Default],
+				role: [ROLE.Owner],
 			},
 		},
 	},
@@ -133,219 +133,225 @@ export const PERMISSIONS: IUserPermissions = {
  * To be authorized, user must pass all deny rules and pass any of the allow rules.
  *
  */
+// export const isAuthorized = (permissions: IPermissions, currentUser: IUser | null): boolean => {
+// 	const loginStatus = currentUser ? LOGIN_STATUS.LoggedIn : LOGIN_STATUS.LoggedOut;
+// 	// big AND block
+// 	// if any of these are false, block user
+// 	if (permissions.deny) {
+// 		if (permissions.deny.shouldDeny && permissions.deny.shouldDeny()) {
+// 			return false;
+// 		}
+
+// 		if (permissions.deny.loginStatus && permissions.deny.loginStatus.includes(loginStatus)) {
+// 			return false;
+// 		}
+
+// 		if (currentUser?.globalRole?.name) {
+// 			const role = currentUser.isDefaultUser ? ROLE.Default : currentUser.globalRole.name;
+// 			if (permissions.deny.role && permissions.deny.role.includes(role)) {
+// 				return false;
+// 			}
+// 		} else if (permissions.deny.role) {
+// 			return false;
+// 		}
+// 	}
+
+// 	// big OR block
+// 	// if any of these are true, allow user
+// 	if (permissions.allow) {
+// 		if (permissions.allow.shouldAllow && permissions.allow.shouldAllow()) {
+// 			return true;
+// 		}
+
+// 		if (permissions.allow.loginStatus && permissions.allow.loginStatus.includes(loginStatus)) {
+// 			return true;
+// 		}
+
+// 		if (currentUser?.globalRole?.name) {
+// 			const role = currentUser.isDefaultUser ? ROLE.Default : currentUser.globalRole.name;
+// 			if (permissions.allow.role && permissions.allow.role.includes(role)) {
+// 				return true;
+// 			}
+// 		}
+// 	}
+
+// 	return false;
+// };
 export const isAuthorized = (permissions: IPermissions, currentUser: IUser | null): boolean => {
 	const loginStatus = currentUser ? LOGIN_STATUS.LoggedIn : LOGIN_STATUS.LoggedOut;
 	// big AND block
 	// if any of these are false, block user
-	if (permissions.deny) {
-		if (permissions.deny.shouldDeny && permissions.deny.shouldDeny()) {
-			return false;
-		}
-
-		if (permissions.deny.loginStatus && permissions.deny.loginStatus.includes(loginStatus)) {
-			return false;
-		}
-
-		if (currentUser?.globalRole?.name) {
-			const role = currentUser.isDefaultUser ? ROLE.Default : currentUser.globalRole.name;
-			if (permissions.deny.role && permissions.deny.role.includes(role)) {
-				return false;
-			}
-		} else if (permissions.deny.role) {
-			return false;
-		}
-	}
-
-	// big OR block
-	// if any of these are true, allow user
-	if (permissions.allow) {
-		if (permissions.allow.shouldAllow && permissions.allow.shouldAllow()) {
-			return true;
-		}
-
-		if (permissions.allow.loginStatus && permissions.allow.loginStatus.includes(loginStatus)) {
-			return true;
-		}
-
-		if (currentUser?.globalRole?.name) {
-			const role = currentUser.isDefaultUser ? ROLE.Default : currentUser.globalRole.name;
-			if (permissions.allow.role && permissions.allow.role.includes(role)) {
-				return true;
-			}
-		}
-	}
-
-	return false;
+	return true;
 };
 
-export function getPersonalizedNodeTypes(
-	answers:
-		| IPersonalizationSurveyAnswersV1
-		| IPersonalizationSurveyAnswersV2
-		| IPersonalizationSurveyAnswersV3
-		| IPersonalizationSurveyAnswersV4
-		| null,
-): string[] {
-	if (!answers) {
-		return [];
-	}
+// export function getPersonalizedNodeTypes(
+// 	answers:
+// 		| IPersonalizationSurveyAnswersV1
+// 		| IPersonalizationSurveyAnswersV2
+// 		| IPersonalizationSurveyAnswersV3
+// 		| IPersonalizationSurveyAnswersV4
+// 		| null,
+// ): string[] {
+// 	if (!answers) {
+// 		return [];
+// 	}
 
-	if (isPersonalizationSurveyV2OrLater(answers)) {
-		return getPersonalizationSurveyV2OrLater(answers);
-	}
+// 	if (isPersonalizationSurveyV2OrLater(answers)) {
+// 		return getPersonalizationSurveyV2OrLater(answers);
+// 	}
 
-	return getPersonalizationSurveyV1(answers);
-}
+// 	return getPersonalizationSurveyV1(answers);
+// }
 
 export function getAccountAge(currentUser: IUser): number {
-	if (currentUser.createdAt) {
-		const accountCreatedAt = new Date(currentUser.createdAt);
-		const today = new Date();
+	// if (currentUser.createdAt) {
+	// 	const accountCreatedAt = new Date(currentUser.createdAt);
+	// 	const today = new Date();
 
-		return Math.ceil((today.getTime() - accountCreatedAt.getTime()) / (1000 * 3600 * 24));
-	}
+	// 	return Math.ceil((today.getTime() - accountCreatedAt.getTime()) / (1000 * 3600 * 24));
+	// }
 	return -1;
 }
 
-function getPersonalizationSurveyV2OrLater(
-	answers:
-		| IPersonalizationSurveyAnswersV2
-		| IPersonalizationSurveyAnswersV3
-		| IPersonalizationSurveyAnswersV4,
-) {
-	let nodeTypes: string[] = [];
+// function getPersonalizationSurveyV2OrLater(
+// 	answers:
+// 		| IPersonalizationSurveyAnswersV2
+// 		| IPersonalizationSurveyAnswersV3
+// 		| IPersonalizationSurveyAnswersV4,
+// ) {
+// 	let nodeTypes: string[] = [];
 
-	const { version, ...data } = answers;
-	if (Object.keys(data).length === 0) {
-		return [];
-	}
+// 	const { version, ...data } = answers;
+// 	if (Object.keys(data).length === 0) {
+// 		return [];
+// 	}
 
-	const companySize = answers[COMPANY_SIZE_KEY];
-	const companyType = answers[COMPANY_TYPE_KEY];
-	const automationGoal = answers[AUTOMATION_GOAL_KEY];
+// 	const companySize = answers[COMPANY_SIZE_KEY];
+// 	const companyType = answers[COMPANY_TYPE_KEY];
+// 	const automationGoal = answers[AUTOMATION_GOAL_KEY];
 
-	let codingSkill = null;
-	if (CODING_SKILL_KEY in answers && answers[CODING_SKILL_KEY]) {
-		codingSkill = parseInt(answers[CODING_SKILL_KEY] as string, 10);
-		codingSkill = isNaN(codingSkill) ? 0 : codingSkill;
-	}
+// 	let codingSkill = null;
+// 	if (CODING_SKILL_KEY in answers && answers[CODING_SKILL_KEY]) {
+// 		codingSkill = parseInt(answers[CODING_SKILL_KEY] as string, 10);
+// 		codingSkill = isNaN(codingSkill) ? 0 : codingSkill;
+// 	}
 
-	// slot 1 trigger
-	if (companyType === ECOMMERCE_COMPANY_TYPE) {
-		nodeTypes = nodeTypes.concat(WOOCOMMERCE_TRIGGER_NODE_TYPE);
-	} else if (companyType === MSP_COMPANY_TYPE) {
-		nodeTypes = nodeTypes.concat(JIRA_TRIGGER_NODE_TYPE);
-	} else if (
-		(companyType === PERSONAL_COMPANY_TYPE ||
-			automationGoal === OTHER_AUTOMATION_GOAL ||
-			automationGoal === NOT_SURE_YET_GOAL) &&
-		codingSkill !== null &&
-		codingSkill >= 4
-	) {
-		nodeTypes = nodeTypes.concat(WEBHOOK_NODE_TYPE);
-	} else if (
-		(companyType === PERSONAL_COMPANY_TYPE ||
-			automationGoal === OTHER_AUTOMATION_GOAL ||
-			automationGoal === NOT_SURE_YET_GOAL) &&
-		codingSkill !== null &&
-		codingSkill < 3
-	) {
-		nodeTypes = nodeTypes.concat(SCHEDULE_TRIGGER_NODE_TYPE);
-	} else if (automationGoal === CUSTOMER_INTEGRATIONS_GOAL) {
-		nodeTypes = nodeTypes.concat(WEBHOOK_NODE_TYPE);
-	} else if (
-		automationGoal === CUSTOMER_SUPPORT_GOAL ||
-		automationGoal === FINANCE_ACCOUNTING_GOAL
-	) {
-		nodeTypes = nodeTypes.concat(ZENDESK_TRIGGER_NODE_TYPE);
-	} else if (automationGoal === SALES_MARKETING_GOAL) {
-		nodeTypes = nodeTypes.concat(HUBSPOT_TRIGGER_NODE_TYPE);
-	} else if (automationGoal === HR_GOAL) {
-		nodeTypes = nodeTypes.concat(WORKABLE_TRIGGER_NODE_TYPE);
-	} else if (automationGoal === OPERATIONS_GOAL) {
-		nodeTypes = nodeTypes.concat(SCHEDULE_TRIGGER_NODE_TYPE);
-	} else if (automationGoal === PRODUCT_GOAL) {
-		nodeTypes = nodeTypes.concat(NOTION_TRIGGER_NODE_TYPE);
-	} else if (automationGoal === SECURITY_GOAL) {
-		nodeTypes = nodeTypes.concat(THE_HIVE_TRIGGER_NODE_TYPE);
-	} else {
-		nodeTypes = nodeTypes.concat(WEBHOOK_NODE_TYPE);
-	}
+// 	// slot 1 trigger
+// 	if (companyType === ECOMMERCE_COMPANY_TYPE) {
+// 		nodeTypes = nodeTypes.concat(WOOCOMMERCE_TRIGGER_NODE_TYPE);
+// 	} else if (companyType === MSP_COMPANY_TYPE) {
+// 		nodeTypes = nodeTypes.concat(JIRA_TRIGGER_NODE_TYPE);
+// 	} else if (
+// 		(companyType === PERSONAL_COMPANY_TYPE ||
+// 			automationGoal === OTHER_AUTOMATION_GOAL ||
+// 			automationGoal === NOT_SURE_YET_GOAL) &&
+// 		codingSkill !== null &&
+// 		codingSkill >= 4
+// 	) {
+// 		nodeTypes = nodeTypes.concat(WEBHOOK_NODE_TYPE);
+// 	} else if (
+// 		(companyType === PERSONAL_COMPANY_TYPE ||
+// 			automationGoal === OTHER_AUTOMATION_GOAL ||
+// 			automationGoal === NOT_SURE_YET_GOAL) &&
+// 		codingSkill !== null &&
+// 		codingSkill < 3
+// 	) {
+// 		nodeTypes = nodeTypes.concat(SCHEDULE_TRIGGER_NODE_TYPE);
+// 	} else if (automationGoal === CUSTOMER_INTEGRATIONS_GOAL) {
+// 		nodeTypes = nodeTypes.concat(WEBHOOK_NODE_TYPE);
+// 	} else if (
+// 		automationGoal === CUSTOMER_SUPPORT_GOAL ||
+// 		automationGoal === FINANCE_ACCOUNTING_GOAL
+// 	) {
+// 		nodeTypes = nodeTypes.concat(ZENDESK_TRIGGER_NODE_TYPE);
+// 	} else if (automationGoal === SALES_MARKETING_GOAL) {
+// 		nodeTypes = nodeTypes.concat(HUBSPOT_TRIGGER_NODE_TYPE);
+// 	} else if (automationGoal === HR_GOAL) {
+// 		nodeTypes = nodeTypes.concat(WORKABLE_TRIGGER_NODE_TYPE);
+// 	} else if (automationGoal === OPERATIONS_GOAL) {
+// 		nodeTypes = nodeTypes.concat(SCHEDULE_TRIGGER_NODE_TYPE);
+// 	} else if (automationGoal === PRODUCT_GOAL) {
+// 		nodeTypes = nodeTypes.concat(NOTION_TRIGGER_NODE_TYPE);
+// 	} else if (automationGoal === SECURITY_GOAL) {
+// 		nodeTypes = nodeTypes.concat(THE_HIVE_TRIGGER_NODE_TYPE);
+// 	} else {
+// 		nodeTypes = nodeTypes.concat(WEBHOOK_NODE_TYPE);
+// 	}
 
-	// slot 2 data transformation
-	if (codingSkill !== null && codingSkill >= 4) {
-		nodeTypes = nodeTypes.concat(CODE_NODE_TYPE);
-	} else {
-		nodeTypes = nodeTypes.concat(ITEM_LISTS_NODE_TYPE);
-	}
+// 	// slot 2 data transformation
+// 	if (codingSkill !== null && codingSkill >= 4) {
+// 		nodeTypes = nodeTypes.concat(CODE_NODE_TYPE);
+// 	} else {
+// 		nodeTypes = nodeTypes.concat(ITEM_LISTS_NODE_TYPE);
+// 	}
 
-	// slot 3 logic node
-	if (codingSkill !== null && codingSkill < 3) {
-		nodeTypes = nodeTypes.concat(IF_NODE_TYPE);
-	} else {
-		nodeTypes = nodeTypes.concat(SWITCH_NODE_TYPE);
-	}
+// 	// slot 3 logic node
+// 	if (codingSkill !== null && codingSkill < 3) {
+// 		nodeTypes = nodeTypes.concat(IF_NODE_TYPE);
+// 	} else {
+// 		nodeTypes = nodeTypes.concat(SWITCH_NODE_TYPE);
+// 	}
 
-	// slot 4 use case #1
-	if (companySize === COMPANY_SIZE_500_999 || companySize === COMPANY_SIZE_1000_OR_MORE) {
-		switch (automationGoal) {
-			case CUSTOMER_INTEGRATIONS_GOAL:
-				nodeTypes = nodeTypes.concat(HTTP_REQUEST_NODE_TYPE);
-				break;
-			case CUSTOMER_SUPPORT_GOAL:
-				nodeTypes = nodeTypes.concat(ZENDESK_NODE_TYPE);
-				break;
-			case SALES_MARKETING_GOAL:
-				nodeTypes = nodeTypes.concat(SALESFORCE_NODE_TYPE);
-				break;
-			case HR_GOAL:
-				nodeTypes = nodeTypes.concat(SERVICENOW_NODE_TYPE);
-				break;
-			case PRODUCT_GOAL:
-				nodeTypes = nodeTypes.concat(JIRA_NODE_TYPE);
-				break;
-			case FINANCE_ACCOUNTING_GOAL:
-				nodeTypes = nodeTypes.concat(SPREADSHEET_FILE_NODE_TYPE);
-				break;
-			case SECURITY_GOAL:
-				nodeTypes = nodeTypes.concat(ELASTIC_SECURITY_NODE_TYPE);
-				break;
-			default:
-				nodeTypes = nodeTypes.concat(SLACK_NODE_TYPE);
-		}
-	} else {
-		switch (automationGoal) {
-			case CUSTOMER_INTEGRATIONS_GOAL:
-				nodeTypes = nodeTypes.concat(HTTP_REQUEST_NODE_TYPE);
-				break;
-			case CUSTOMER_SUPPORT_GOAL:
-				nodeTypes = nodeTypes.concat(ZENDESK_NODE_TYPE);
-				break;
-			case FINANCE_ACCOUNTING_GOAL:
-				nodeTypes = nodeTypes.concat(QUICKBOOKS_NODE_TYPE);
-				break;
-			case HR_GOAL:
-				nodeTypes = nodeTypes.concat(BAMBOO_HR_NODE_TYPE);
-				break;
-			case PRODUCT_GOAL:
-				nodeTypes = nodeTypes.concat(JIRA_NODE_TYPE);
-				break;
-			case SALES_MARKETING_GOAL:
-				nodeTypes = nodeTypes.concat(GOOGLE_SHEETS_NODE_TYPE);
-				break;
-			case SECURITY_GOAL:
-				nodeTypes = nodeTypes.concat(ELASTIC_SECURITY_NODE_TYPE);
-				break;
-			default:
-				nodeTypes = nodeTypes.concat(SLACK_NODE_TYPE);
-		}
-	}
+// 	// slot 4 use case #1
+// 	if (companySize === COMPANY_SIZE_500_999 || companySize === COMPANY_SIZE_1000_OR_MORE) {
+// 		switch (automationGoal) {
+// 			case CUSTOMER_INTEGRATIONS_GOAL:
+// 				nodeTypes = nodeTypes.concat(HTTP_REQUEST_NODE_TYPE);
+// 				break;
+// 			case CUSTOMER_SUPPORT_GOAL:
+// 				nodeTypes = nodeTypes.concat(ZENDESK_NODE_TYPE);
+// 				break;
+// 			case SALES_MARKETING_GOAL:
+// 				nodeTypes = nodeTypes.concat(SALESFORCE_NODE_TYPE);
+// 				break;
+// 			case HR_GOAL:
+// 				nodeTypes = nodeTypes.concat(SERVICENOW_NODE_TYPE);
+// 				break;
+// 			case PRODUCT_GOAL:
+// 				nodeTypes = nodeTypes.concat(JIRA_NODE_TYPE);
+// 				break;
+// 			case FINANCE_ACCOUNTING_GOAL:
+// 				nodeTypes = nodeTypes.concat(SPREADSHEET_FILE_NODE_TYPE);
+// 				break;
+// 			case SECURITY_GOAL:
+// 				nodeTypes = nodeTypes.concat(ELASTIC_SECURITY_NODE_TYPE);
+// 				break;
+// 			default:
+// 				nodeTypes = nodeTypes.concat(SLACK_NODE_TYPE);
+// 		}
+// 	} else {
+// 		switch (automationGoal) {
+// 			case CUSTOMER_INTEGRATIONS_GOAL:
+// 				nodeTypes = nodeTypes.concat(HTTP_REQUEST_NODE_TYPE);
+// 				break;
+// 			case CUSTOMER_SUPPORT_GOAL:
+// 				nodeTypes = nodeTypes.concat(ZENDESK_NODE_TYPE);
+// 				break;
+// 			case FINANCE_ACCOUNTING_GOAL:
+// 				nodeTypes = nodeTypes.concat(QUICKBOOKS_NODE_TYPE);
+// 				break;
+// 			case HR_GOAL:
+// 				nodeTypes = nodeTypes.concat(BAMBOO_HR_NODE_TYPE);
+// 				break;
+// 			case PRODUCT_GOAL:
+// 				nodeTypes = nodeTypes.concat(JIRA_NODE_TYPE);
+// 				break;
+// 			case SALES_MARKETING_GOAL:
+// 				nodeTypes = nodeTypes.concat(GOOGLE_SHEETS_NODE_TYPE);
+// 				break;
+// 			case SECURITY_GOAL:
+// 				nodeTypes = nodeTypes.concat(ELASTIC_SECURITY_NODE_TYPE);
+// 				break;
+// 			default:
+// 				nodeTypes = nodeTypes.concat(SLACK_NODE_TYPE);
+// 		}
+// 	}
 
-	// slot 4
-	nodeTypes = nodeTypes.concat(SET_NODE_TYPE);
+// 	// slot 4
+// 	nodeTypes = nodeTypes.concat(SET_NODE_TYPE);
 
-	return nodeTypes;
-}
+// 	return nodeTypes;
+// }
 
 function getPersonalizationSurveyV1(answers: IPersonalizationSurveyAnswersV1) {
 	const companySize = answers[COMPANY_SIZE_KEY];

@@ -42,12 +42,12 @@ export const usePostHog = defineStore('posthog', () => {
 		const user = usersStore.currentUser;
 		const traits: Record<string, string | number> = { instance_id: instanceId };
 
-		if (user && typeof user.createdAt === 'string') {
-			traits.created_at_timestamp = new Date(user.createdAt).getTime();
-		}
+		// if (user && typeof user.createdAt === 'string') {
+		// 	traits.created_at_timestamp = new Date(user.createdAt).getTime();
+		// }
 
 		// For PostHog, main ID _cannot_ be `undefined` as done for RudderStack.
-		const id = user ? `${instanceId}#${user.id}` : instanceId;
+		const id = user ? `${instanceId}#${user.sub}` : instanceId;
 		window.posthog?.identify?.(id, traits);
 	};
 
@@ -120,3 +120,4 @@ export const usePostHog = defineStore('posthog', () => {
 		reset,
 	};
 });
+
