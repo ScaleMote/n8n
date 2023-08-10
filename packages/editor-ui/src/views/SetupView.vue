@@ -9,6 +9,7 @@
 </template>
 
 <script lang="ts">
+import { DefineComponent } from 'vue';
 import AuthView from './AuthView.vue';
 import { showMessage } from '@/mixins/showMessage';
 
@@ -39,17 +40,6 @@ export default mixins(showMessage, restApi).extend({
 			secondaryButtonText: this.$locale.baseText('auth.setup.skipSetupTemporarily'),
 			inputs: [
 				{
-					name: 'email',
-					properties: {
-						label: this.$locale.baseText('auth.email'),
-						type: 'email',
-						required: true,
-						validationRules: [{ name: 'VALID_EMAIL' }],
-						autocomplete: 'email',
-						capitalize: true,
-					},
-				},
-				{
 					name: 'firstName',
 					properties: {
 						label: this.$locale.baseText('auth.firstName'),
@@ -70,6 +60,17 @@ export default mixins(showMessage, restApi).extend({
 					},
 				},
 				{
+					name: 'email',
+					properties: {
+						label: this.$locale.baseText('auth.email'),
+						type: 'email',
+						required: true,
+						validationRules: [{ name: 'VALID_EMAIL' }],
+						autocomplete: 'email',
+						capitalize: true,
+					},
+				},
+				{
 					name: 'password',
 					properties: {
 						label: this.$locale.baseText('auth.password'),
@@ -79,6 +80,16 @@ export default mixins(showMessage, restApi).extend({
 						infoText: this.$locale.baseText('auth.defaultPasswordRequirements'),
 						autocomplete: 'new-password',
 						capitalize: true,
+					},
+				},
+				{
+					name: 'phoneNumber',
+					properties: {
+						label: this.$locale.baseText('auth.phoneNumber'),
+						type: 'text',
+						required: true,
+						validationRules: [{ name: 'PHONE_VALIDATION_RULES' }],
+						infoText: this.$locale.baseText('auth.defaultPhoneNumberRequirements'),
 					},
 				},
 				{
@@ -141,32 +152,50 @@ export default mixins(showMessage, restApi).extend({
 		},
 		async onSubmit(values: { [key: string]: string | boolean }) {
 			try {
+				console.log('Submitting registration...');
 				const confirmSetup = await this.confirmSetupOrGoBack();
 				if (!confirmSetup) {
 					return;
 				}
 
-				const forceRedirectedHere = this.settingsStore.showSetupPage;
 				this.loading = true;
-				await this.usersStore.createOwner(
-					values as { firstName: string; lastName: string; email: string; password: string },
-				);
 
-				if (values.agree === true) {
-					try {
-						await this.uiStore.submitContactEmail(values.email.toString(), values.agree);
-					} catch {}
+				const registrationData = {
+					name: values.firstName,
+					lastName: values.lastName,
+					email: values.email,
+					password: values.password.toString(),
+					phoneNumber: values.phoneNumber,
+				};
+
+				console.log('registrationData:', registrationData);
+
+				const response = await fetch('http://localhost:3000/auth/register', {
+					method: 'POST',
+					body: JSON.stringify(registrationData),
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				});
+
+				const responseJson = await response.json();
+				console.log('Response:', responseJson);
+
+				if (!response.ok) {
+					console.error('Registration failed:', responseJson);
+					throw new Error('Registration failed');
 				}
 
-				if (forceRedirectedHere) {
-					await this.$router.push({ name: VIEWS.HOMEPAGE });
-				} else {
-					await this.$router.push({ name: VIEWS.USERS_SETTINGS });
-				}
+				console.log('Success', responseJson);
+
+				await this.$router.push({ name: VIEWS.USERS_SETTINGS });
 			} catch (error) {
-				this.$showError(error, this.$locale.baseText('auth.setup.settingUpOwnerError'));
+				console.error('Error:', error);
+				const errorMessage = error instanceof Error ? error.message : 'An error occurred';
+				this.$showError(errorMessage, this.$locale.baseText('auth.setup.settingUpOwnerError'));
+			} finally {
+				this.loading = false;
 			}
-			this.loading = false;
 		},
 		async showSkipConfirmation() {
 			const skip = await this.confirmMessage(
