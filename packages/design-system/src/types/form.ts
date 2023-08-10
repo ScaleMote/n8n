@@ -51,6 +51,7 @@ export type IFormInput = {
 			| 'current-password'
 			| 'given-name'
 			| 'family-name'
+			| 'phone-number'
 			| 'email'; // https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
 		capitalize?: boolean;
 		focusInitially?: boolean;

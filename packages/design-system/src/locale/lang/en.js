@@ -16,6 +16,7 @@ export default {
 		`Must have at least ${config.minimum} uppercase character${config.minimum > 1 ? 's' : ''}`,
 	'formInput.validator.defaultPasswordRequirements':
 		'8+ characters, at least 1 number and 1 capital letter',
+	'formInput.validator.defaultPhoneNumberRequirements': 'Invalid phone number format',
 	'sticky.markdownHint': `You can style with <a href="https://docs.n8n.io/workflows/sticky-notes/" target="_blank">Markdown</a>`,
 	'tags.showMore': (count) => `+${count} more`,
 };
