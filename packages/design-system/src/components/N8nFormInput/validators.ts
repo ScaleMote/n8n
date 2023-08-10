@@ -103,6 +103,24 @@ export const VALIDATORS: { [key: string]: IValidator | RuleGroup } = {
 			{ name: 'MAX_LENGTH', config: { maximum: 64 } },
 		],
 	},
+	PHONE_FORMAT_VALIDATION: {
+		validate: (value: Validatable) => {
+			if (typeof value !== 'string') {
+				return {
+					messageKey: 'formInput.validator.defaultPhoneNumberRequirements',
+				};
+			}
+
+			const phoneNumberRegex = /^\+\d{1,4}\d{1,14}$/;
+			if (!phoneNumberRegex.test(value)) {
+				return {
+					messageKey: 'formInput.validator.defaultPhoneNumberRequirements',
+				};
+			}
+
+			return false;
+		},
+	},
 };
 
 export const getValidationError = <T extends Validatable, C>(
