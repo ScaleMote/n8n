@@ -29,8 +29,6 @@
   ],
   "n8n": {
     "credentials": [
-      "dist/credentials/AnclapApi.credentials.js",
-      "dist/credentials/StellarApi.credentials.js",
       "dist/credentials/ActionNetworkApi.credentials.js",
       "dist/credentials/ActiveCampaignApi.credentials.js",
       "dist/credentials/AcuitySchedulingApi.credentials.js",
@@ -345,9 +343,6 @@
       "dist/credentials/ZulipApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/Anclap/Anclap.node.js",
-      "dist/nodes/StellarTrigger/StellarTrigger.node.js",
-      "dist/nodes/Stellar/Stellar.node.js",
       "dist/nodes/ActionNetwork/ActionNetwork.node.js",
       "dist/nodes/ActiveCampaign/ActiveCampaign.node.js",
       "dist/nodes/ActiveCampaign/ActiveCampaignTrigger.node.js",
