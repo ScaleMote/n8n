@@ -1,4 +1,4 @@
 tasks:
   - name: n8n
     init: pnpm install
-    command: pnpm start
+    command: pnpm run build && pnpm start
