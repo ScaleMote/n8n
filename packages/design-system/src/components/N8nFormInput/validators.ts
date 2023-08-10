@@ -3,6 +3,8 @@ import { IValidator, RuleGroup, Validatable } from '../../types';
 export const emailRegex =
 	/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+export const phoneRegex = /^\+([0-9]+)$/;
+
 export const VALIDATORS: { [key: string]: IValidator | RuleGroup } = {
 	REQUIRED: {
 		validate: (value: Validatable) => {
@@ -71,6 +73,17 @@ export const VALIDATORS: { [key: string]: IValidator | RuleGroup } = {
 			return false;
 		},
 	},
+	PHONE_VALIDATION_RULES: {
+		validate: (value: Validatable) => {
+			if (!phoneRegex.test(String(value).trim().toLowerCase())) {
+				return {
+					messageKey: 'formInput.validator.defaultPhoneNumberRequirements',
+				};
+			}
+
+			return false;
+		},
+	},
 	CONTAINS_UPPERCASE: {
 		validate: (value: Validatable, config: { minimum: number }) => {
 			if (typeof value !== 'string') {
@@ -102,24 +115,6 @@ export const VALIDATORS: { [key: string]: IValidator | RuleGroup } = {
 			},
 			{ name: 'MAX_LENGTH', config: { maximum: 64 } },
 		],
-	},
-	PHONE_FORMAT_VALIDATION: {
-		validate: (value: Validatable) => {
-			if (typeof value !== 'string') {
-				return {
-					messageKey: 'formInput.validator.defaultPhoneNumberRequirements',
-				};
-			}
-
-			const phoneNumberRegex = /^\+\d{1,4}\d{1,14}$/;
-			if (!phoneNumberRegex.test(value)) {
-				return {
-					messageKey: 'formInput.validator.defaultPhoneNumberRequirements',
-				};
-			}
-
-			return false;
-		},
 	},
 };
 
