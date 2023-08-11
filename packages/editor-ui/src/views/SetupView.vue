@@ -9,7 +9,6 @@
 </template>
 
 <script lang="ts">
-import { DefineComponent } from 'vue';
 import AuthView from './AuthView.vue';
 import { showMessage } from '@/mixins/showMessage';
 
@@ -152,13 +151,10 @@ export default mixins(showMessage, restApi).extend({
 		},
 		async onSubmit(values: { [key: string]: string | boolean }) {
 			try {
-				console.log('Submitting registration...');
 				const confirmSetup = await this.confirmSetupOrGoBack();
 				if (!confirmSetup) {
 					return;
 				}
-
-				this.loading = true;
 
 				const registrationData = {
 					name: values.firstName,
@@ -178,25 +174,40 @@ export default mixins(showMessage, restApi).extend({
 					},
 				});
 
-				const responseJson = await response.json();
-				console.log('Response:', responseJson);
+				console.log('response:', response);
+
+				const responseData = await response.json();
+
+				console.log('responseData:', responseData);
 
 				if (!response.ok) {
-					console.error('Registration failed:', responseJson);
 					throw new Error('Registration failed');
+				} else {
+					try {
+						console.log('Submitting contact email...');
+						await this.uiStore.submitContactEmail(values.email.toString(), response.ok);
+						console.log('Contact email submitted successfully');
+					} catch (error) {
+						console.error('Error submitting contact email:', error);
+					}
 				}
-
-				console.log('Success', responseJson);
-
-				await this.$router.push({ name: VIEWS.USERS_SETTINGS });
+				this.loading = true;
+				const forceRedirectedHere = this.settingsStore.showSetupPage;
+				if (forceRedirectedHere) {
+					console.log('Redirecting to homepage...');
+					await this.$router.push({ name: VIEWS.HOMEPAGE });
+				} else {
+					console.log('Redirecting to users settings...');
+					await this.$router.push({ name: VIEWS.USERS_SETTINGS });
+				}
 			} catch (error) {
-				console.error('Error:', error);
-				const errorMessage = error instanceof Error ? error.message : 'An error occurred';
-				this.$showError(errorMessage, this.$locale.baseText('auth.setup.settingUpOwnerError'));
+				console.error('Error during registration:', error);
+				this.$showError(error, this.$locale.baseText('auth.setup.settingUpOwnerError'));
 			} finally {
 				this.loading = false;
 			}
 		},
+
 		async showSkipConfirmation() {
 			const skip = await this.confirmMessage(
 				this.$locale.baseText('auth.setup.ownerAccountBenefits'),
