@@ -21,6 +21,7 @@ module.exports = {
 		// TODO: Remove this
 		'import/no-cycle': 'warn',
 		'import/order': 'off',
+		'import/no-unresolved': 'off',
 		'import/extensions': 'off',
 		'@typescript-eslint/ban-ts-comment': ['warn', { 'ts-ignore': true }],
 	},
