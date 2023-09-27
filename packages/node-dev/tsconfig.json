@@ -2,31 +2,9 @@
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
 		"outDir": "dist",
-		"types": ["node"],
-		"lib": ["es2019", "es2020", "es2022.error"],
-		"strict": true,
-		"module": "commonjs",
-		"moduleResolution": "node",
-		"target": "es2019",
 		"preserveSymlinks": true,
-		"removeComments": true,
-		"forceConsistentCasingInFileNames": true,
-		"noImplicitAny": true,
-		"noImplicitReturns": true,
-		"strictNullChecks": true,
-		"preserveConstEnums": true,
 		"esModuleInterop": true,
-		"resolveJsonModule": true,
-		"noUnusedLocals": true,
 		"useUnknownInCatchVariables": false
 	},
-	"include": [
-		"commands/**/*.ts",
-		"src/**/*.ts",
-		"credentials/translations/**/*.json",
-		"credentials/**/*.ts",
-		"nodes/**/*.ts",
-		"nodes/**/*.json",
-		"package.json"
-	]
+	"include": ["commands/**/*.ts", "src/**/*.ts"]
 }
