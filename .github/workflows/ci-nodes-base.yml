@@ -1,0 +1,35 @@
+name: CI nodes-base Package
+
+on:
+  push:
+    branches: ['master', 'main']
+  pull_request:
+    branches: ['*']
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2.2.4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm --filter n8n-nodes-base... build
+
+      - name: Test
+        run: pnpm --filter n8n-nodes-base test
