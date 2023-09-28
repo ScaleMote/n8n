@@ -33,9 +33,10 @@ export class SEP6 {
 			const url = request
 				? `${toml.TRANSFER_SERVER}/info?${queryBuilder(request)}`
 				: `${toml.TRANSFER_SERVER}/info`;
-			const transferServerInfo = await axios.get(url);
 
-			return transferServerInfo.data;
+			const { data } = await axios.get(url);
+
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
@@ -48,10 +49,10 @@ export class SEP6 {
 			request.account = this.anclapCredentials.publicKey;
 			const queryParams = queryBuilder(request);
 
-			const depositInformation = await axios.get(`${toml.TRANSFER_SERVER}/deposit?${queryParams}`, {
+			const { data } = await axios.get(`${toml.TRANSFER_SERVER}/deposit?${queryParams}`, {
 				headers: { Authorization: `Bearer ${this.token}` },
 			});
-			return depositInformation.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
@@ -64,12 +65,11 @@ export class SEP6 {
 			request.account = this.anclapCredentials.publicKey;
 			const queryParams = queryBuilder(request);
 
-			const withdrawInformation = await axios.get(
-				`${toml.TRANSFER_SERVER}/withdraw?${queryParams}`,
-				{ headers: { Authorization: `Bearer ${this.token}` } },
-			);
+			const { data } = await axios.get(`${toml.TRANSFER_SERVER}/withdraw?${queryParams}`, {
+				headers: { Authorization: `Bearer ${this.token}` },
+			});
 
-			return withdrawInformation.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
@@ -82,11 +82,11 @@ export class SEP6 {
 			request.account = this.anclapCredentials.publicKey;
 			const queryParams = queryBuilder(request);
 
-			const transactions = await axios.get(`${toml.TRANSFER_SERVER}/transactions?${queryParams}`, {
+			const { data } = await axios.get(`${toml.TRANSFER_SERVER}/transactions?${queryParams}`, {
 				headers: { Authorization: `Bearer ${this.token}` },
 			});
 
-			return transactions.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
@@ -97,14 +97,11 @@ export class SEP6 {
 			const toml = await this.anclapCredentials.getToml();
 			const queryParams = queryBuilder(request);
 
-			const transactionDetail = await axios.get(
-				`${toml.TRANSFER_SERVER}/transaction?${queryParams}`,
-				{
-					headers: { Authorization: `Bearer ${this.token}` },
-				},
-			);
+			const { data } = await axios.get(`${toml.TRANSFER_SERVER}/transaction?${queryParams}`, {
+				headers: { Authorization: `Bearer ${this.token}` },
+			});
 
-			return transactionDetail.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
@@ -116,11 +113,11 @@ export class SEP6 {
 
 			const queryParams = queryBuilder(request);
 
-			const fee = await axios.get(`${toml.TRANSFER_SERVER}/fee?${queryParams}`, {
+			const { data } = await axios.get(`${toml.TRANSFER_SERVER}/fee?${queryParams}`, {
 				headers: { Authorization: `Bearer ${this.token}` },
 			});
 
-			return fee.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
@@ -133,12 +130,11 @@ export class SEP6 {
 			request.account = this.anclapCredentials.publicKey;
 			const queryParams = queryBuilder(request);
 
-			const depositInformation = await axios.get(
-				`${toml.TRANSFER_SERVER}/deposit-exchange?${queryParams}`,
-				{ headers: { Authorization: `Bearer ${this.token}` } },
-			);
+			const { data } = await axios.get(`${toml.TRANSFER_SERVER}/deposit-exchange?${queryParams}`, {
+				headers: { Authorization: `Bearer ${this.token}` },
+			});
 
-			return depositInformation.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
@@ -151,12 +147,11 @@ export class SEP6 {
 			request.account = this.anclapCredentials.publicKey;
 			const queryParams = queryBuilder(request);
 
-			const withdrawInformation = await axios.get(
-				`${toml.TRANSFER_SERVER}/withdraw-exchange?${queryParams}`,
-				{ headers: { Authorization: `Bearer ${this.token}` } },
-			);
+			const { data } = await axios.get(`${toml.TRANSFER_SERVER}/withdraw-exchange?${queryParams}`, {
+				headers: { Authorization: `Bearer ${this.token}` },
+			});
 
-			return withdrawInformation.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}

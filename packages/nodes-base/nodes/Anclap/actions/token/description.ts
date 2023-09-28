@@ -1,10 +1,10 @@
-import { INodeProperties } from 'n8n-workflow';
+import type { INodeProperties } from 'n8n-workflow';
 import { description as getDescription } from './get';
 import { description as sendDescription } from './send';
 import { description as validateDescription } from './validate';
 import { description as signDescription } from './sign';
 
-const description: INodeProperties[] = [
+export const description: INodeProperties[] = [
 	{
 		displayName: 'Operation',
 		name: 'operation',
@@ -44,5 +44,3 @@ const description: INodeProperties[] = [
 	...validateDescription,
 	...signDescription,
 ];
-
-export default description;

@@ -103,7 +103,7 @@ export const withdrawDescription: INodeProperties[] = [
 		},
 		default: '',
 		description:
-			'TThe account that the user wants to withdraw their funds to. This can be a crypto account, a bank account number, IBAN, mobile number, or email address.',
+			'The account that the user wants to withdraw their funds to. This can be a crypto account, a bank account number, IBAN, mobile number, or email address.',
 	},
 	{
 		displayName: 'Memo',
@@ -133,7 +133,7 @@ export const withdrawDescription: INodeProperties[] = [
 		},
 		default: '',
 		description:
-			'Type of memo. One of text, ID or hash. Deprecated because memos used to identify users of the same Stellar account should always be of type of ID.',
+			'Type of memo. One of text, ID or hash. Deprecated because memos used to identify users of the same Stellar account should always be of type of ID',
 	},
 	{
 		displayName: 'Wallet Name',
@@ -238,6 +238,6 @@ export const withdrawDescription: INodeProperties[] = [
 		},
 		default: '',
 		description:
-			'The type of the refund_memo. Can be ID, text, or hash. See the memos documentation for more information. If specified, refund_memo must also be specified.',
+			'The type of the refund_memo. Can be ID, text, or hash. See the memos documentation for more information. If specified, refund_memo must also be specified',
 	},
 ];

@@ -22,9 +22,9 @@ export class SEP38 {
 	async getInfo() {
 		try {
 			const toml = await this.anclapCredentials.getToml();
-			const quoteServerInfo = await axios.get(`${toml.ANCHOR_QUOTE_SERVER}/info`);
+			const { data } = await axios.get(`${toml.ANCHOR_QUOTE_SERVER}/info`);
 
-			return quoteServerInfo.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
@@ -35,11 +35,11 @@ export class SEP38 {
 			const toml = await this.anclapCredentials.getToml();
 
 			const queryParams = queryBuilder(request);
-			const prices = await axios.get(`${toml.ANCHOR_QUOTE_SERVER}/prices?${queryParams}`, {
+			const { data } = await axios.get(`${toml.ANCHOR_QUOTE_SERVER}/prices?${queryParams}`, {
 				headers: { Authorization: `Bearer ${this.token}` },
 			});
 
-			return prices.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
@@ -50,10 +50,10 @@ export class SEP38 {
 			const toml = await this.anclapCredentials.getToml();
 
 			const queryParams = queryBuilder(request);
-			const price = await axios.get(`${toml.ANCHOR_QUOTE_SERVER}/price?${queryParams}`, {
+			const { data } = await axios.get(`${toml.ANCHOR_QUOTE_SERVER}/price?${queryParams}`, {
 				headers: { Authorization: `Bearer ${this.token}` },
 			});
-			return price.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
@@ -68,11 +68,11 @@ export class SEP38 {
 				.filterUndefinedValues()
 				.build();
 
-			const firmQuote = await axios.post(`${toml.ANCHOR_QUOTE_SERVER}/quote`, payload, {
+			const { data } = await axios.post(`${toml.ANCHOR_QUOTE_SERVER}/quote`, payload, {
 				headers: { Authorization: `Bearer ${this.token}` },
 			});
 
-			return firmQuote.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
@@ -82,11 +82,11 @@ export class SEP38 {
 		try {
 			const toml = await this.anclapCredentials.getToml();
 
-			const quote = await axios.get(`${toml.ANCHOR_QUOTE_SERVER}/quote/${request.id}`, {
+			const { data } = await axios.get(`${toml.ANCHOR_QUOTE_SERVER}/quote/${request.id}`, {
 				headers: { Authorization: `Bearer ${this.token}` },
 			});
 
-			return quote.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}

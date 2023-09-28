@@ -134,7 +134,7 @@ export const withdrawExchangeDescription: INodeProperties[] = [
 		},
 		default: '',
 		description:
-			"The ID returned from a SEP-38 POST /quote response. If this parameter is provided and the Stellar transaction used to send the asset to the Anchor has a created_at timestamp earlier than the quote's expires_at attribute, the Anchor should respect the conversion rate agreed in that quote. If the values of destination_asset, source_asset and amount conflict with the ones used to create the SEP-38 quote, this request should be rejected with a 400.",
+			"The ID returned from a SEP-38 POST /quote response. If this parameter is provided and the Stellar transaction used to send the asset to the Anchor has a created_at timestamp earlier than the quote's expires_at attribute, the Anchor should respect the conversion rate agreed in that quote. If the values of destination_asset, source_asset and amount conflict with the ones used to create the SEP-38 quote, this request should be rejected with a 400",
 	},
 	{
 		displayName: 'Memo',
@@ -164,7 +164,7 @@ export const withdrawExchangeDescription: INodeProperties[] = [
 		},
 		default: '',
 		description:
-			'Type of memo. One of text, ID or hash. Deprecated because memos used to identify users of the same Stellar account should always be of type of ID.',
+			'Type of memo. One of text, ID or hash. Deprecated because memos used to identify users of the same Stellar account should always be of type of ID',
 	},
 	{
 		displayName: 'Wallet Name',
@@ -269,6 +269,6 @@ export const withdrawExchangeDescription: INodeProperties[] = [
 		},
 		default: '',
 		description:
-			'The type of the refund_memo. Can be ID, text, or hash. See the memos documentation for more information. If specified, refund_memo must also be specified.',
+			'The type of the refund_memo. Can be ID, text, or hash. See the memos documentation for more information. If specified, refund_memo must also be specified',
 	},
 ];

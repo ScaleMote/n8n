@@ -18,9 +18,9 @@ export class SEP1 {
 
 	async getInfo(): Promise<IAnclapTomlResponse> {
 		try {
-			const result = await axios.get(this.anclapUrl);
+			const { data } = await axios.get(this.anclapUrl);
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-			return toml.parse(result.data) as IAnclapTomlResponse;
+			return toml.parse(data) as IAnclapTomlResponse;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}

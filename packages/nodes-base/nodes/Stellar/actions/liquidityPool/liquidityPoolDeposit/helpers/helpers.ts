@@ -6,8 +6,8 @@ import { NoPriceSelectedError } from '../errors/NoPriceSelectedError';
 export function getPrice(price: ILiquidityPoolPrice['values']): string | IFraction {
 	if (price.isPriceAFraction && price.priceNumerator && price.priceDenominator) {
 		return {
-			n: convertAmountToBigNumber(price.priceNumerator),
-			d: convertAmountToBigNumber(price.priceDenominator),
+			numerator: convertAmountToBigNumber(price.priceNumerator),
+			denominator: convertAmountToBigNumber(price.priceDenominator),
 		};
 	}
 	if (price.priceNumber) {

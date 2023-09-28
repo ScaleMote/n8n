@@ -6,9 +6,9 @@ import type { AnclapCredentials } from './AnclapCredentials';
 import { NetworkPassphrase } from './enums/networkPassphrase';
 
 function extractHomeDomain(anchorUrl: string): string {
-	const url = new URL(anchorUrl);
+	const { hostname } = new URL(anchorUrl);
 
-	return url.hostname;
+	return hostname;
 }
 
 export async function validateXdrProvenance(

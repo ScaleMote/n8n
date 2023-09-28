@@ -14,11 +14,11 @@ export class SEP10 {
 		const toml = await this.anclapCredentials.getToml();
 
 		try {
-			const challenge = await axios.get(
+			const { data } = await axios.get(
 				`${toml.WEB_AUTH_ENDPOINT}/?account=${this.anclapCredentials.publicKey}`,
 			);
 
-			return challenge.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
@@ -37,11 +37,11 @@ export class SEP10 {
 		const toml = await this.anclapCredentials.getToml();
 
 		try {
-			const token = await axios.post(`${toml.WEB_AUTH_ENDPOINT}/`, {
+			const { data } = await axios.post(`${toml.WEB_AUTH_ENDPOINT}/`, {
 				transaction: signedXdr,
 			});
 
-			return token.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}

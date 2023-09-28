@@ -10,7 +10,7 @@ describe('Get liquidity pool price', () => {
 			priceDenominator: 2,
 		};
 		const price = getPrice(fractionPriceValues);
-		expect(price).toEqual({ n: '5.0000000', d: '2.0000000' });
+		expect(price).toEqual({ numerator: '5.0000000', denominator: '2.0000000' });
 	});
 
 	it('Should return a number', () => {

@@ -1,4 +1,4 @@
 export interface IFraction {
-	n: string;
-	d: string;
+	numerator: string;
+	denominator: string;
 }

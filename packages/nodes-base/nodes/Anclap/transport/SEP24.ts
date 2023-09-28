@@ -28,13 +28,13 @@ export class SEP24 {
 		const payload = new PayloadBuilder(request).parseObjectKeyCaseType(convertToSnakeCase).build();
 
 		try {
-			const depositUrl = await axios.post(
+			const { data } = await axios.post(
 				`${toml.TRANSFER_SERVER_SEP0024}/transactions/deposit/interactive`,
 				payload,
 				{ headers: { Authorization: `Bearer ${this.token}` } },
 			);
 
-			return depositUrl.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
@@ -47,13 +47,13 @@ export class SEP24 {
 		const payload = new PayloadBuilder(request).parseObjectKeyCaseType(convertToSnakeCase).build();
 
 		try {
-			const withdrawUrl = await axios.post(
+			const { data } = await axios.post(
 				`${toml.TRANSFER_SERVER_SEP0024}/transactions/withdraw/interactive`,
 				payload,
 				{ headers: { Authorization: `Bearer ${this.token}` } },
 			);
 
-			return withdrawUrl.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
@@ -65,14 +65,14 @@ export class SEP24 {
 		request.account = this.anclapCredentials.publicKey;
 		const queryParams = queryBuilder(request);
 		try {
-			const transactions = await axios.get(
+			const { data } = await axios.get(
 				`${toml.TRANSFER_SERVER_SEP0024}/transactions?${queryParams}`,
 				{
 					headers: { Authorization: `Bearer ${this.token}` },
 				},
 			);
 
-			return transactions.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
@@ -83,14 +83,14 @@ export class SEP24 {
 
 		const queryParams = queryBuilder(request);
 		try {
-			const transactionDetail = await axios.get(
+			const { data } = await axios.get(
 				`${toml.TRANSFER_SERVER_SEP0024}/transaction?${queryParams}`,
 				{
 					headers: { Authorization: `Bearer ${this.token}` },
 				},
 			);
 
-			return transactionDetail.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
@@ -102,11 +102,11 @@ export class SEP24 {
 
 			const queryParams = queryBuilder(request);
 
-			const fee = await axios.get(`${toml.TRANSFER_SERVER_SEP0024}/fee?${queryParams}`, {
+			const { data } = await axios.get(`${toml.TRANSFER_SERVER_SEP0024}/fee?${queryParams}`, {
 				headers: { Authorization: `Bearer ${this.token}` },
 			});
 
-			return fee.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
@@ -119,9 +119,10 @@ export class SEP24 {
 			const url = request
 				? `${toml.TRANSFER_SERVER_SEP0024}/info?${queryBuilder(request)}`
 				: `${toml.TRANSFER_SERVER_SEP0024}/info`;
-			const transferServerInfo = await axios.get(url);
 
-			return transferServerInfo.data;
+			const { data } = await axios.get(url);
+
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}

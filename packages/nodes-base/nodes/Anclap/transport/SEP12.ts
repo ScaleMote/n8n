@@ -32,11 +32,11 @@ export class SEP12 {
 			: `${toml.KYC_SERVER}/customer`;
 
 		try {
-			const kycStatus = await axios.get(url, {
+			const { data } = await axios.get(url, {
 				headers: { Authorization: `Bearer ${this.token}` },
 			});
 
-			return kycStatus.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
@@ -51,11 +51,11 @@ export class SEP12 {
 			.build();
 
 		try {
-			const customerId = await axios.put(`${toml.KYC_SERVER}/customer`, payload, {
+			const { data } = await axios.put(`${toml.KYC_SERVER}/customer`, payload, {
 				headers: { Authorization: `Bearer ${this.token}` },
 			});
 
-			return customerId.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
@@ -71,11 +71,11 @@ export class SEP12 {
 			.build();
 
 		try {
-			const response = await axios.put(`${toml.KYC_SERVER}/customer/callback`, payload, {
+			const { data } = await axios.put(`${toml.KYC_SERVER}/customer/callback`, payload, {
 				headers: { Authorization: `Bearer ${this.token}` },
 			});
 
-			return response.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
@@ -90,13 +90,11 @@ export class SEP12 {
 			.build();
 
 		try {
-			const verificationStatus = await axios.put(
-				`${toml.KYC_SERVER}/customer/verification`,
-				payload,
-				{ headers: { Authorization: `Bearer ${this.token}` } },
-			);
+			const { data } = await axios.put(`${toml.KYC_SERVER}/customer/verification`, payload, {
+				headers: { Authorization: `Bearer ${this.token}` },
+			});
 
-			return verificationStatus.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
@@ -112,11 +110,11 @@ export class SEP12 {
 		const queryParams = queryBuilder(request);
 
 		try {
-			const deleteStatus = await axios.delete(`${toml.KYC_SERVER}/customer/${queryParams}`, {
+			const { data } = await axios.delete(`${toml.KYC_SERVER}/customer/${queryParams}`, {
 				headers: { Authorization: `Bearer ${this.token}` },
 			});
 
-			return deleteStatus.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
@@ -134,11 +132,13 @@ export class SEP12 {
 
 		const formData = new FormData();
 		formData.append('file', imageBuffer, `file.${imageFormat}`);
+
 		try {
-			const fileId = await axios.post(`${toml.KYC_SERVER}/customer/files`, formData, {
+			const { data } = await axios.post(`${toml.KYC_SERVER}/customer/files`, formData, {
 				headers: { Authorization: `Bearer ${this.token}`, 'Content-Type': 'multipart/form-data' },
 			});
-			return fileId.data;
+
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
@@ -152,11 +152,11 @@ export class SEP12 {
 			: `${toml.KYC_SERVER}/customer/files`;
 
 		try {
-			const files = await axios.get(url, {
+			const { data } = await axios.get(url, {
 				headers: { Authorization: `Bearer ${this.token}` },
 			});
 
-			return files.data;
+			return data;
 		} catch (e) {
 			throw new AxiosHttpRequestError(e);
 		}
